@@ -11,11 +11,12 @@ export default function GithubSignInButton(){
 
     const handleSignIn = ()=>{
         signInGitHubPopup().then((userInfo) => {
-            if(userInfo){
+            if(userInfo && userInfo.email){
                 console.log('a');
                 dispatch(set({
                     uid: userInfo.uid,
                     name: userInfo.name,
+                    email: userInfo.email,
                 }))
             }
             

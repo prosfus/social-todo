@@ -16,7 +16,8 @@ export default function TopBar(){
         setDropdownOpened(false);
         localStorage.removeItem('uid');
         localStorage.removeItem('name');
-        dispatch(set({uid: '', name: ''}));
+        localStorage.removeItem('email');
+        dispatch(set({uid: '', name: '', email: ''}));
         setNavigate(true);
     }
 

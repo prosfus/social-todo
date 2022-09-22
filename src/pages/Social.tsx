@@ -8,7 +8,7 @@ export default function Social() {
         <TopBar/>
         <div className="flex-row">
           <SideBar/>
-          <div>SOICAL</div>
+          <div>SOCIAL</div>
           </div>
       </div>
       )

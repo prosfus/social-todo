@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
-
+import { getFirestore } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -25,7 +25,8 @@ export const signInGooglePopup = ()=>{
     .then((result)=>{
         localStorage.setItem('uid', JSON.stringify(result.user.uid));
         localStorage.setItem('name', JSON.stringify(result.user.displayName));
-        return {uid: result.user.uid, name: result.user.displayName}
+        localStorage.setItem('email', JSON.stringify(result.user.email));
+        return {uid: result.user.uid, name: result.user.displayName, email: result.user.email}
     })
     
 }
@@ -38,7 +39,10 @@ export const signInGitHubPopup = ()=>{
         .then((result)=>{
             localStorage.setItem('uid', result.user.uid);
             localStorage.setItem('name', JSON.stringify(result.user.displayName));
-            return {uid: result.user.uid, name: result.user.displayName}
+            localStorage.setItem('email', JSON.stringify(result.user.email));
+            return {uid: result.user.uid, name: result.user.displayName, email: result.user.email}
         })
     
 }
+
+export const db = getFirestore(app);

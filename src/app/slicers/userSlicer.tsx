@@ -4,6 +4,7 @@ import {RootState} from '../store';
 export interface UserInfo {
     uid: string,
     name: string | null,
+    email: string,
   }
 
 interface UserState {
@@ -14,6 +15,7 @@ const initialState: UserState = {
     value: {
         uid: '',
         name: '',
+        email: '',
     },
 }
 
@@ -27,7 +29,7 @@ export const userSlice = createSlice({
                 
                 uid: action.payload.uid,
                 name: action.payload.name,
-                
+                email: action.payload.email,
             }
         },
     }
