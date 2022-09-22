@@ -13,4 +13,29 @@
     background-color: #1c1c1e;
 }
 
+.white-svg {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
 
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 3.5rem;
+    right: .5rem;
+    padding: .5rem 2rem;
+    background-color: #1c1c1e;
+    border: 1px solid #464646;
+    border-radius: 5px;
+}
+
+.logout {
+    gap: .5rem;
+}

@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import CounterReducer from './testSlice'
-import ActivePageReducer from './activePageSlicer'
+import CounterReducer from './slicers/testSlice'
+import ActivePageReducer from './slicers/activePageSlicer'
+import UserInfoReduceer from './slicers/userSlicer';
+import ErrorStateReducer from './slicers/errorSlicer';
 
 export const store = configureStore({
     reducer: {
         counter: CounterReducer,
         activePage: ActivePageReducer,
+        userInfo: UserInfoReduceer,
+        errorState: ErrorStateReducer,
     },
 })
 

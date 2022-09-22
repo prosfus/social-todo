@@ -8,7 +8,7 @@ export default function MyPage(){
           <TopBar/>
           <div className="flex-row">
             <SideBar/>
-            </div>
+          </div>
         </div>
       )
 }

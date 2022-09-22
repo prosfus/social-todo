@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../app/store'
-import { toggle, selectActivePage } from '../app/activePageSlicer';
+import { toggle, selectActivePage } from '../app/slicers/activePageSlicer';
 import {useEffect} from 'react'
 
 export default function SideBar(){
