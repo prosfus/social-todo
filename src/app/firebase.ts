@@ -2,6 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query} from "firebase/firestore";
+import {Todo} from '../components/MyTodos';
 
 
 const firebaseConfig = {
@@ -17,7 +19,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 export const signInGooglePopup = ()=>{
     const provider = new GoogleAuthProvider();
 
@@ -46,3 +48,49 @@ export const signInGitHubPopup = ()=>{
 }
 
 export const db = getFirestore(app);
+
+
+export async function  getMyPublicDocs(uid: string){
+    let todos = [] as Todo[];
+
+    await getDocs(collection(db, 'users/'+ uid+'/public')).then((res)=>{
+        if(res.docs.length > 0) {
+            res.forEach((doc)=>{
+                todos.push({
+                    todo: doc.data().todo,
+                    expirationDate: doc.data().expirationDate.toDate(),
+                    notificationDate: doc.data().notificationDate.toDate(),
+                    privacy: 'public',
+                })
+               
+            })
+        }
+    })
+    return todos;
+}
+
+export async function  getMyPrivateDocs(uid: string){
+    let todos = [] as Todo[];
+
+    await getDocs(collection(db, 'users/'+ uid+'/private')).then((res)=>{
+        if(res.docs.length > 0) {
+            res.forEach((doc)=>{
+                todos.push({
+                    todo: doc.data().todo,
+                    expirationDate: doc.data().expirationDate.toDate(),
+                    notificationDate: doc.data().notificationDate.toDate(),
+                    privacy: 'private',
+                })
+               
+            })
+        }
+    })
+    return todos;
+}
+
+export async function getAllMyDocs(uid: string){
+    let t = [] as Todo[];
+    let pub = await getMyPublicDocs(uid);
+    let priv = await getMyPrivateDocs(uid);
+    return pub.concat(priv);
+}
