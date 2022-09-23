@@ -16,10 +16,11 @@ export default function Landing(){
         const uid = localStorage.getItem('uid')?.replaceAll('"', '');
         if(uid){
             const name = localStorage.getItem('name')?.replaceAll('"', '');
-            
+            const email = localStorage.getItem('email')?.replaceAll('"', '');
             dispatch(set({
                 uid: uid,
                 name: name ? name : '',
+                email: email ? email : '',
             }))
         }
     },[])
