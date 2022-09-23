@@ -5,5 +5,5 @@ Web application to create, manage and share todos.
 - React
 - TypeScript
 - Redux
-- Firebase
+- Firebase (Authentication + Firestore)
 
