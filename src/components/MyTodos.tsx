@@ -1,18 +1,19 @@
 import '../styles/MyTodos.css';
-import { db, getMyPublicDocs, getMyPrivateDocs, getAllMyDocs } from '../app/firebase';
+import { getAllMyDocs } from '../app/firebase';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, doc, getDoc, query} from "firebase/firestore";
-import { useAppSelector, useAppDispatch  } from '../app/store'
-import { set, selectUserSlice, UserInfo } from '../app/slicers/userSlicer';
+import { useAppSelector  } from '../app/store'
+import { selectUserSlice } from '../app/slicers/userSlicer';
+import TodoComponent from './Todo';
 
 export interface Todo {
+    id: string,
     todo: string,
     expirationDate: Date,
     notificationDate: Date,
     privacy: string,
 }
 
-export default function MyTodos(){
+export default function MyTodosList(){
 
     const user = useAppSelector(selectUserSlice);
     const [todos, setTodos] = useState([] as Todo[]);
@@ -30,11 +31,9 @@ export default function MyTodos(){
     return (
         <div className="todos-container">
             {todos.map((todo)=>{
-                return (<div>
-                    <div>{todo.todo}</div>
-                    
-                    <div>{todo.privacy}</div>
-                </div>)
+                return (
+                    <TodoComponent todo={todo}/>
+                )
             })}
         </div>
     )

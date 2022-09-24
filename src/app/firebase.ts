@@ -56,7 +56,10 @@ export async function  getMyPublicDocs(uid: string){
     await getDocs(collection(db, 'users/'+ uid+'/public')).then((res)=>{
         if(res.docs.length > 0) {
             res.forEach((doc)=>{
+                console.log(doc.id);
+                
                 todos.push({
+                    id: doc.id,
                     todo: doc.data().todo,
                     expirationDate: doc.data().expirationDate.toDate(),
                     notificationDate: doc.data().notificationDate.toDate(),
@@ -76,6 +79,7 @@ export async function  getMyPrivateDocs(uid: string){
         if(res.docs.length > 0) {
             res.forEach((doc)=>{
                 todos.push({
+                    id: doc.id,
                     todo: doc.data().todo,
                     expirationDate: doc.data().expirationDate.toDate(),
                     notificationDate: doc.data().notificationDate.toDate(),
