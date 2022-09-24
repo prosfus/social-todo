@@ -2,7 +2,11 @@ import { Todo } from './MyTodos'
 import '../styles/Todo.css'
 import {useState} from 'react';
 import expirationSvg from '../assets/svg/time-left.svg';
-import notificationSvg from '../assets/svg/notification.svg';
+import privacySvg from '../assets/svg/privacy.svg';
+import {remove} from '../app/slicers/todoSlicer';
+import {selectUserSlice} from '../app/slicers/userSlicer';
+import {useAppDispatch, useAppSelector} from '../app/store';
+import {deleteTodo} from '../app/firebase'
 
 type TodoProps = {
     todo: Todo;
@@ -11,17 +15,20 @@ type TodoProps = {
 
 
 export default function TodoComponent(props: TodoProps){
-    /* const expMonth = props.todo.expirationDate.getMonth()+1; */
-    /* const notMonth = props.todo.notificationDate.getMonth()+1; */
-    /* const expDate = props.todo.expirationDate.getDate() + '/' + expMonth + '/' + props.todo.expirationDate.getFullYear(); */
-    /* const notDate = props.todo.notificationDate.getDate() + '/' + notMonth + '/' + props.todo.notificationDate.getFullYear(); */
+    const user = useAppSelector(selectUserSlice);
     const [checked, setChecked] = useState(false);
+    const privacyString = props.todo.privacy == 'public' ? 'Public' : 'Private';
+    const dispatch = useAppDispatch();
+    const handleDelete = () =>{
+        dispatch(remove(props.todo.id));
+        deleteTodo(user.uid, props.todo.id);
+    }
 
 
     return(
         <div className="todo-component">
             <div className="todo-checkbox-container">
-                <div onClick={()=>{setChecked(!checked)}} className={checked ? 'todo-checkbox todo-checked' : 'todo-checkbox'}></div>
+                <div onClick={()=>{handleDelete()}} className={checked ? 'todo-checkbox todo-checked' : 'todo-checkbox'}></div>
             </div>
             <div className="todo-info">
                 <div className="todo-info-top">
@@ -33,8 +40,8 @@ export default function TodoComponent(props: TodoProps){
                         <div className="todo-info-expiration-text">{props.todo.expirationDate}</div>
                     </div>
                     <div className="todo-info-bottom-item">
-                        <img className="white-svg todo-svg" src={notificationSvg} alt="expiration date"/>
-                        <div className="todo-info-expiration-text">{props.todo.notificationDate}</div>
+                        <img className="white-svg todo-svg" src={privacySvg} alt="expiration date"/>
+                        <div className="todo-info-expiration-text">{privacyString}</div>
                     </div>
                 </div>
             </div>

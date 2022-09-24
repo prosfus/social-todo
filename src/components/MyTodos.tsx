@@ -10,7 +10,6 @@ export interface Todo {
     id: string,
     todo: string,
     expirationDate: string,
-    notificationDate: string,
     privacy: string,
 }
 

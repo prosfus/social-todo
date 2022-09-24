@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { collection, getDocs, doc, getDoc, query} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc,deleteDoc, query} from "firebase/firestore";
 import {Todo} from '../components/MyTodos';
 import { useAppDispatch } from "./store";
 import {set} from './slicers/todoSlicer'
@@ -64,7 +64,6 @@ export async function  getMyPublicDocs(uid: string){
                     id: doc.id,
                     todo: doc.data().todo,
                     expirationDate: doc.data().expirationDate.toDate().toLocaleString(),
-                    notificationDate: doc.data().notificationDate.toDate().toLocaleString(),
                     privacy: 'public',
                 })
                
@@ -86,7 +85,6 @@ export async function  getMyPrivateDocs(uid: string){
                     id: doc.id,
                     todo: doc.data().todo,
                     expirationDate: doc.data().expirationDate.toDate().toLocaleString(),
-                    notificationDate: doc.data().notificationDate.toDate().toLocaleString(),
                     privacy: 'private',
                 })
                
@@ -108,4 +106,9 @@ export async function getAndSetTodos(uid: string){
     getAllMyDocs(uid).then((docs)=>{
         localStorage.setItem('docs', JSON.stringify(docs));
     })
+}
+
+export function deleteTodo(uid: string, id: string){
+    deleteDoc(doc(db, 'users/'+uid+'/public', id));
+    deleteDoc(doc(db, 'users/'+uid+'/private', id));
 }

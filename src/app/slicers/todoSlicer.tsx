@@ -22,15 +22,19 @@ export const todoSlice = createSlice({
                 return  {
                     ...todo,
                     expirationDate: todo.expirationDate,
-                    notificationDate: todo.notificationDate,
                 }
             })
             state.value = t;   
+       },
+       remove: (state, action: PayloadAction<string>)=>{
+              state.value = state.value.filter((todo: Todo)=>{
+                return todo.id !== action.payload;
+              })
        }
     }
 })
 
-export const {set} = todoSlice.actions;
+export const {set, remove} = todoSlice.actions;
 export const selectTodoSlice = (state: RootState) => state.todoState.value;
 
 export default todoSlice.reducer
