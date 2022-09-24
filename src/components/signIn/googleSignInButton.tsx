@@ -10,7 +10,6 @@ export default function GoogleSignInButton(){
     const handleSignIn = ()=>{
         signInGooglePopup().then((userInfo) => {
             if(userInfo && userInfo.email){
-                console.log(userInfo.name);
                 dispatch(set({
                     uid: userInfo.uid,
                     name: userInfo.name,

@@ -4,6 +4,7 @@ import CounterReducer from './slicers/testSlice'
 import ActivePageReducer from './slicers/activePageSlicer'
 import UserInfoReduceer from './slicers/userSlicer';
 import ErrorStateReducer from './slicers/errorSlicer';
+import TodoStateReducer from './slicers/todoSlicer';
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         activePage: ActivePageReducer,
         userInfo: UserInfoReduceer,
         errorState: ErrorStateReducer,
+        todoState: TodoStateReducer,
     },
 })
 

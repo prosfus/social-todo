@@ -11,9 +11,10 @@ type TodoProps = {
 
 
 export default function TodoComponent(props: TodoProps){
-
-    const expDate = props.todo.expirationDate.getDate() + '/' + props.todo.expirationDate.getMonth() + '/' + props.todo.expirationDate.getFullYear();
-    const notDate = props.todo.notificationDate.getDate() + '/' + props.todo.notificationDate.getMonth() + '/' + props.todo.notificationDate.getFullYear();
+    /* const expMonth = props.todo.expirationDate.getMonth()+1; */
+    /* const notMonth = props.todo.notificationDate.getMonth()+1; */
+    /* const expDate = props.todo.expirationDate.getDate() + '/' + expMonth + '/' + props.todo.expirationDate.getFullYear(); */
+    /* const notDate = props.todo.notificationDate.getDate() + '/' + notMonth + '/' + props.todo.notificationDate.getFullYear(); */
     const [checked, setChecked] = useState(false);
 
 
@@ -29,11 +30,11 @@ export default function TodoComponent(props: TodoProps){
                 <div className="todo-info-bottom">
                     <div className="todo-info-bottom-item">
                         <img className="white-svg todo-svg" src={expirationSvg} alt="expiration date"/>
-                        <div className="todo-info-expiration-text">{expDate}</div>
+                        <div className="todo-info-expiration-text">{props.todo.expirationDate}</div>
                     </div>
                     <div className="todo-info-bottom-item">
                         <img className="white-svg todo-svg" src={notificationSvg} alt="expiration date"/>
-                        <div className="todo-info-expiration-text">{notDate}</div>
+                        <div className="todo-info-expiration-text">{props.todo.notificationDate}</div>
                     </div>
                 </div>
             </div>

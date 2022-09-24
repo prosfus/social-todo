@@ -4,7 +4,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from
 import { getFirestore } from "firebase/firestore";
 import { collection, getDocs, doc, getDoc, query} from "firebase/firestore";
 import {Todo} from '../components/MyTodos';
-
+import { useAppDispatch } from "./store";
+import {set} from './slicers/todoSlicer'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBmbvbXuKpfN96AEJe8h8FOLvXjNS9Ie9Y",
@@ -25,9 +26,7 @@ export const signInGooglePopup = ()=>{
 
     return signInWithPopup(auth, provider)
     .then((result)=>{
-        localStorage.setItem('uid', JSON.stringify(result.user.uid));
-        localStorage.setItem('name', JSON.stringify(result.user.displayName));
-        localStorage.setItem('email', JSON.stringify(result.user.email));
+        setLocalStorage(result.user.uid, result.user.displayName, result.user.email);
         return {uid: result.user.uid, name: result.user.displayName, email: result.user.email}
     })
     
@@ -39,12 +38,16 @@ export const signInGitHubPopup = ()=>{
 
     return signInWithPopup(auth, provider)
         .then((result)=>{
-            localStorage.setItem('uid', result.user.uid);
-            localStorage.setItem('name', JSON.stringify(result.user.displayName));
-            localStorage.setItem('email', JSON.stringify(result.user.email));
+            setLocalStorage(result.user.uid, result.user.displayName, result.user.email)
             return {uid: result.user.uid, name: result.user.displayName, email: result.user.email}
         })
     
+}
+
+function setLocalStorage(uid: string, name: string | null, email: string | null){
+    localStorage.setItem('uid', uid);
+    localStorage.setItem('name', JSON.stringify(name));
+    localStorage.setItem('email', JSON.stringify(email));
 }
 
 export const db = getFirestore(app);
@@ -56,13 +59,12 @@ export async function  getMyPublicDocs(uid: string){
     await getDocs(collection(db, 'users/'+ uid+'/public')).then((res)=>{
         if(res.docs.length > 0) {
             res.forEach((doc)=>{
-                console.log(doc.id);
                 
                 todos.push({
                     id: doc.id,
                     todo: doc.data().todo,
-                    expirationDate: doc.data().expirationDate.toDate(),
-                    notificationDate: doc.data().notificationDate.toDate(),
+                    expirationDate: doc.data().expirationDate.toDate().toLocaleString(),
+                    notificationDate: doc.data().notificationDate.toDate().toLocaleString(),
                     privacy: 'public',
                 })
                
@@ -78,11 +80,13 @@ export async function  getMyPrivateDocs(uid: string){
     await getDocs(collection(db, 'users/'+ uid+'/private')).then((res)=>{
         if(res.docs.length > 0) {
             res.forEach((doc)=>{
+                console.log(typeof doc.data().expirationDate);
+                
                 todos.push({
                     id: doc.id,
                     todo: doc.data().todo,
-                    expirationDate: doc.data().expirationDate.toDate(),
-                    notificationDate: doc.data().notificationDate.toDate(),
+                    expirationDate: doc.data().expirationDate.toDate().toLocaleString(),
+                    notificationDate: doc.data().notificationDate.toDate().toLocaleString(),
                     privacy: 'private',
                 })
                
@@ -97,4 +101,11 @@ export async function getAllMyDocs(uid: string){
     let pub = await getMyPublicDocs(uid);
     let priv = await getMyPrivateDocs(uid);
     return pub.concat(priv);
+}
+
+export async function getAndSetTodos(uid: string){
+    
+    getAllMyDocs(uid).then((docs)=>{
+        localStorage.setItem('docs', JSON.stringify(docs));
+    })
 }

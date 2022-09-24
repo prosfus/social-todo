@@ -34,12 +34,12 @@
     flex-direction: row;
     font-size: 1.1rem;
     color: #727272;
-    gap: 1rem;
+    gap: .6rem;
     
 }
 
 .todo-info-bottom-item {
-    width: 7rem;
+    width: 12rem;
     display: flex;
     flex-direction: row;
     gap: .4rem;
